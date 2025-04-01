@@ -1,6 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet, Dimensions,TouchableOpacity } from "react-native";
-import { useTheme } from '../context/ThemeContext';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Dimensions,
+  TouchableOpacity,
+} from "react-native";
+import { useTheme } from "../context/ThemeContext";
 
 export default function GoalSuggestions(): JSX.Element {
   const [currentDate, setCurrentDate] = useState("");
@@ -43,11 +49,6 @@ export default function GoalSuggestions(): JSX.Element {
             <Text style={styles.badgeText}>{protein}g protein</Text>
           </View>
         </View> */}
-        <TouchableOpacity onPress={toggleTheme} style={styles.themeToggle}>
-                    <Text style={[styles.themeToggleText, { color: theme.text }]}>
-                      {isDarkMode ? '☀️' : '🌙'}
-                    </Text>
-                  </TouchableOpacity>
       </View>
     </View>
   );
