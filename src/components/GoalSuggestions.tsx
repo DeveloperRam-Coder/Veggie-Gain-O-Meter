@@ -10,9 +10,6 @@ import { useTheme } from "../context/ThemeContext";
 
 export default function GoalSuggestions(): JSX.Element {
   const [currentDate, setCurrentDate] = useState("");
-  const [calories, setCalories] = useState(0);
-  const [protein, setProtein] = useState(0);
-  const { theme, isDarkMode, toggleTheme } = useTheme();
 
   // Update the current date when the component mounts
   useEffect(() => {
@@ -26,29 +23,11 @@ export default function GoalSuggestions(): JSX.Element {
     setCurrentDate(`📅 ${formattedDate}`);
   }, []);
 
-  // Simulate real-time data updates (Replace with API calls if needed)
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCalories((prev) => prev + Math.floor(Math.random() * 10));
-      setProtein((prev) => prev + Math.floor(Math.random() * 5));
-    }, 5000); // Updates every 5 seconds
-
-    return () => clearInterval(interval);
-  }, []);
-
   return (
     <View style={styles.container}>
       {/* Date and Nutrition Info */}
       <View style={styles.topSection}>
         <Text style={styles.dateText}>{currentDate}</Text>
-        {/* <View style={styles.badgeContainer}>
-          <View style={[styles.badge, styles.caloriesBadge]}>
-            <Text style={styles.badgeText}>{calories} calories</Text>
-          </View>
-          <View style={[styles.badge, styles.proteinBadge]}>
-            <Text style={styles.badgeText}>{protein}g protein</Text>
-          </View>
-        </View> */}
       </View>
     </View>
   );

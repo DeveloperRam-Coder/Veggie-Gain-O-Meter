@@ -1,8 +1,15 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
-import MealItem from './MealItem';
-import AddMealItemModal from './AddMealItemModal';
-import { Meal } from '../data/mealsData';
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Dimensions,
+} from "react-native";
+import MealItem from "./MealItem";
+import AddMealItemModal from "./AddMealItemModal";
+import { Meal } from "../data/mealsData";
+import Colors from "../theme/Colors";
 
 interface MealCardProps {
   meal: Meal;
@@ -10,63 +17,81 @@ interface MealCardProps {
   setMeals: React.Dispatch<React.SetStateAction<Meal[]>>;
 }
 
-export default function MealCard({ meal, meals, setMeals }: MealCardProps): JSX.Element {
+export default function MealCard({
+  meal,
+  meals,
+  setMeals,
+}: MealCardProps): JSX.Element {
   const [modalVisible, setModalVisible] = useState(false);
-  const totalMealCalories = meal.items.reduce((sum, item) => sum + item.calories, 0);
+  const totalCalories = meal.items.reduce(
+    (sum, item) => sum + item.calories,
+    0
+  );
 
   return (
     <View style={[styles.card, { borderLeftColor: meal.color }]}>
-      <Text style={styles.title}>{meal.title}</Text>
-      <View style={styles.itemsContainer}>
-        {meal.items.map((item) => (
-          <MealItem key={item.id} item={item} meal={meal} meals={meals} setMeals={setMeals} />
-        ))}
-      </View>
-      <Text style={styles.caloriesText}>Total: {totalMealCalories} cal</Text>
-      <TouchableOpacity style={styles.addButton} onPress={() => setModalVisible(true)}>
-        <Text style={styles.addButtonText}>+ Add Item</Text>
+      <Text style={styles.header}>{meal.title}</Text>
+      {meal.items.map((item) => (
+        <MealItem
+          key={item.id}
+          item={item}
+          meal={meal}
+          meals={meals}
+          setMeals={setMeals}
+        />
+      ))}
+      {/* <Text style={styles.caloriesText}>Total: {totalCalories} cal</Text> */}
+      <TouchableOpacity
+        style={styles.addButton}
+        onPress={() => setModalVisible(true)}
+      >
+        <Text style={styles.addButtonText}>+ Item</Text>
       </TouchableOpacity>
-      <AddMealItemModal visible={modalVisible} mealId={meal.id} onClose={() => setModalVisible(false)} />
+      <AddMealItemModal
+        visible={modalVisible}
+        mealId={meal.id}
+        onClose={() => setModalVisible(false)}
+      />
     </View>
   );
 }
 
-const { width } = Dimensions.get('window');
+const { width } = Dimensions.get("window");
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: '#252728',
-    marginVertical: 10,
-    borderRadius: 8,
     padding: 10,
-    borderLeftWidth: 5,
-    width: '100%',
+    borderRadius: 8,
+    marginVertical: 5,
+    borderWidth: 2,
+    borderColor: "#F1C40F",
+    position: "relative", // Ensure the button can be placed relative to the card
   },
-  title: {
-    fontSize: width < 350 ? 16 : 18,
-    color: '#fff',
-    fontWeight: 'bold',
-    marginBottom: 8,
-  },
-  itemsContainer: {
+  header: {
+    fontWeight: "bold",
+    fontSize: 16,
+    color: "#F1C40F",
     marginBottom: 8,
   },
   caloriesText: {
-    color: '#fff',
-    textAlign: 'right',
-    fontStyle: 'italic',
-    fontSize: width < 350 ? 12 : 14,
+    fontSize: 12,
+    color: "#ECF0F1",
+    textAlign: "right",
+    marginBottom: 8,
   },
   addButton: {
-    backgroundColor: '#2f71b5',
-    paddingVertical: 8,
-    paddingHorizontal: 12,
+    backgroundColor: Colors.accent,
+    paddingVertical: 4,
+    paddingHorizontal: 8,
     borderRadius: 5,
-    alignItems: 'center',
-    marginTop: 8,
+    alignItems: "center",
+    position: "absolute", // Position the button absolutely inside the card
+    top: 8, // Adjust to move it to the top
+    right: 8, // Move it to the right side
   },
   addButtonText: {
-    color: '#fff',
-    fontSize: width < 350 ? 14 : 16,
+    color: Colors.white,
+    fontSize: 14,
+    fontWeight: "500",
   },
 });

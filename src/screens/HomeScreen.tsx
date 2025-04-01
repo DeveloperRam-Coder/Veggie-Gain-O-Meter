@@ -13,6 +13,7 @@ import Colors from "../theme/Colors";
 import GoalSuggestions from "../components/GoalSuggestions";
 import MealBreakdown from "../components/MealBreakdown";
 import MealCard from "../components/MealCard";
+import Tips from "../components/Tips";
 
 export default function HomeScreen(): JSX.Element {
   const mealContext = useContext(MealContext);
@@ -63,6 +64,7 @@ export default function HomeScreen(): JSX.Element {
             setMeals={setMeals}
           />
         ))}
+        <Tips/>
       </ScrollView>
     </View>
   );
