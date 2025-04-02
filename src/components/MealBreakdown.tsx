@@ -4,6 +4,7 @@ import { MealContext } from '../context/MealContext';
 
 interface MealBreakdownProps {
   dailyTarget: number;
+  totalCalories: number;
 }
 
 export default function MealBreakdown({ dailyTarget }: MealBreakdownProps): JSX.Element {

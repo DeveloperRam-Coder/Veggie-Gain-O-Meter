@@ -15,7 +15,7 @@ export default function HomeScreen(): JSX.Element {
       "MealContext is not provided. Make sure to wrap your component tree with MealContext.Provider."
     );
   }
-  const { meals, setMeals } = mealContext;
+  const { meals, setMeals, resetMeals } = mealContext;
 
   const dailyTarget = 2500;
   const totalCalories = meals.reduce((acc, meal) => {
@@ -35,6 +35,9 @@ export default function HomeScreen(): JSX.Element {
         >
           <View style={styles.header}>
             <Text style={styles.title}>Veggie Gain-o-Meter</Text>
+            <TouchableOpacity style={styles.resetButton} onPress={resetMeals}>
+              <Text style={styles.resetButtonText}>Reset Meals</Text>
+            </TouchableOpacity>
           </View>
 
           <View style={styles.content}>
@@ -60,6 +63,23 @@ export default function HomeScreen(): JSX.Element {
 }
 
 const styles = StyleSheet.create({
+  resetButton: {
+    backgroundColor: '#F39C12',
+    paddingHorizontal: 15,
+    paddingVertical: 8,
+    borderRadius: 8,
+    elevation: 3,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    marginTop: 10,
+  },
+  resetButtonText: {
+    color: '#FFFFFF',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
   safeArea: {
     flex: 1,
     backgroundColor: "#f8f9fa"
@@ -88,15 +108,22 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     marginBottom: 16,
     shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    elevation: 4,
-    borderWidth: 2,
-    borderColor: "#F39C12",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.15,
+    shadowRadius: 12,
+    elevation: 6,
+    borderWidth: 0,
+    borderLeftWidth: 6,
+    borderLeftColor: "#F39C12",
+    borderRightWidth: 6,
+    borderRightColor: "#E67E22",
+    borderTopWidth: 2,
+    borderTopColor: "#F39C12",
+    borderBottomWidth: 2,
+    borderBottomColor: "#E67E22",
   },
   content: {
-    // paddingBottom: 24,
-    // gap: 16,
+    paddingBottom: 24,
+    gap: 16,
   }
 });

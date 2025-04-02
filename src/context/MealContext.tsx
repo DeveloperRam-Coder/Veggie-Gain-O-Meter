@@ -58,7 +58,7 @@ export const MealProvider = ({ children }: Props): JSX.Element => {
   };
 
   return (
-    <MealContext.Provider value={{ meals, setMeals, addMealItem }}>
+    <MealContext.Provider value={{ meals, setMeals, addMealItem, resetMeals: () => setMeals(mealsData) }}>
       {children}
     </MealContext.Provider>
   );
