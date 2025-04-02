@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
 import { View, Text, StyleSheet, Dimensions, Animated } from 'react-native';
 import { MealContext } from '../context/MealContext';
-import { Easing } from 'react-native-reanimated';
 
 interface MealBreakdownProps {
   dailyTarget: number;
@@ -21,7 +20,6 @@ export default function MealBreakdown({ dailyTarget }: MealBreakdownProps): JSX.
   Animated.timing(animatedWidth, {
     toValue: progressPercentage,
     duration: 800,
-    easing: Easing.ease,
     useNativeDriver: false,
   }).start();
 
@@ -42,29 +40,31 @@ const styles = StyleSheet.create({
     padding: 16,
     borderRadius: 12,
     marginVertical: 10,
-    backgroundColor: "#e3f2fd",
-    borderWidth: 1,
-    borderColor: '#F39C12',
+    backgroundColor: "#ffffff",
+    borderLeftWidth: 4,
+    borderLeftColor: '#F39C12',
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 5 },
-    shadowOpacity: 0.4,
-    shadowRadius: 8,
-    elevation: 5,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
   },
   header: {
     fontWeight: 'bold',
     textAlign: 'center',
     fontSize: 18,
+    color: '#2c3e50',
     marginBottom: 14,
   },
   info: {
     fontSize: 16,
     textAlign: 'center',
     marginBottom: 10,
+    color: '#7f8c8d',
   },
   progressBarContainer: {
     height: 8,
-    backgroundColor: 'rgba(0, 106, 255, 0.2)',
+    backgroundColor: 'rgba(243, 156, 18, 0.2)',
     borderRadius: 6,
     marginVertical: 8,
     overflow: 'hidden',
@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
   percentageText: {
     fontSize: 14,
     textAlign: 'center',
-    opacity: 0.9,
+    color: '#7f8c8d',
     marginTop: 4,
   },
 });

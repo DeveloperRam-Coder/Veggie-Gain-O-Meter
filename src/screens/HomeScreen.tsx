@@ -1,14 +1,7 @@
 // src/screens/HomeScreen.tsx
 import React, { useContext } from "react";
-import {
-  View,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-} from "react-native";
+import { View, ScrollView, StyleSheet, Text, TouchableOpacity, SafeAreaView } from "react-native";
 import { MealContext } from "../context/MealContext";
-
 import Colors from "../theme/Colors";
 import GoalSuggestions from "../components/GoalSuggestions";
 import MealBreakdown from "../components/MealBreakdown";
@@ -24,7 +17,7 @@ export default function HomeScreen(): JSX.Element {
   }
   const { meals, setMeals } = mealContext;
 
-  const dailyTarget = 2500; // Example daily target in calories
+  const dailyTarget = 2500;
   const totalCalories = meals.reduce((acc, meal) => {
     const mealCalories = meal.items.reduce(
       (sum, item) => sum + item.calories,
@@ -34,75 +27,76 @@ export default function HomeScreen(): JSX.Element {
   }, 0);
 
   return (
-    <View style={[styles.container]}>
-      <ScrollView style={styles.scrollView}>
-        {/* Header with Theme Toggle */}
-        <View style={styles.header}>
-          <Text style={[styles.title]}>Veggie Gain-o-Meter</Text>
-        </View>
+    <SafeAreaView style={styles.safeArea}>
+      <View style={styles.container}>
+        <ScrollView
+          style={styles.scrollView}
+          showsVerticalScrollIndicator={false}
+        >
+          <View style={styles.header}>
+            <Text style={styles.title}>Veggie Gain-o-Meter</Text>
+          </View>
 
-        {/* Goal Suggestions */}
-        <GoalSuggestions />
-
-        {/* Meal Breakdown (or summary) */}
-        <MealBreakdown
-          totalCalories={totalCalories}
-          dailyTarget={dailyTarget}
-        />
-        {/* Render each MealCard */}
-        {meals.map((meal) => (
-          <MealCard
-            key={meal.id}
-            meal={meal}
-            meals={meals}
-            setMeals={setMeals}
-          />
-        ))}
-        <Tips />
-      </ScrollView>
-    </View>
+          <View style={styles.content}>
+            <GoalSuggestions />
+            <MealBreakdown
+              totalCalories={totalCalories}
+              dailyTarget={dailyTarget}
+            />
+            {meals.map((meal) => (
+              <MealCard
+                key={meal.id}
+                meal={meal}
+                meals={meals}
+                setMeals={setMeals}
+              />
+            ))}
+            <Tips />
+          </View>
+        </ScrollView>
+      </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: "#f8f9fa"
+  },
   container: {
     flex: 1,
-    paddingHorizontal: 10,
-    paddingTop: 20,
   },
   scrollView: {
-    marginBottom: 20,
+    flex: 1,
+    paddingHorizontal: 16,
   },
   header: {
-    flexDirection: "row",
-    justifyContent: "space-between",
+    paddingTop: 50,
+    paddingBottom: 10,
     alignItems: "center",
-    marginVertical: 10,
   },
   title: {
-    fontSize: 24,
+    fontSize: 28,
     fontWeight: "bold",
-    flex: 1,
+    color: "#2c3e50",
     textAlign: "center",
-    marginTop: 20,
     width: "100%",
-    padding: 16,
-    backgroundColor: "#e3f2fd",
-    borderRadius: 12,
-    marginBottom: 15,
+    paddingVertical: 16,
+    paddingHorizontal: 20,
+    backgroundColor: "#ffffff",
+    borderRadius: 16,
+    marginBottom: 16,
     shadowColor: "#000",
-    shadowOpacity: 0.1,
     shadowOffset: { width: 0, height: 2 },
-    shadowRadius: 4,
-    elevation: 3,
-    borderWidth: 1,
-    borderColor: '#F39C12',
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 4,
+    borderWidth: 2,
+    borderColor: "#F39C12",
   },
-  themeToggle: {
-    padding: 8,
-    borderRadius: 20,
-  },
-  themeToggleText: {
-    fontSize: 20,
-  },
+  content: {
+    // paddingBottom: 24,
+    // gap: 16,
+  }
 });

@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
   container: {
     width: "100%",
     padding: 16,
-    backgroundColor: "#e3f2fd",
+    backgroundColor: "#ffffff",
     borderRadius: 12,
     marginBottom: 15,
     shadowColor: "#000",
@@ -51,8 +51,8 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowRadius: 4,
     elevation: 3,
-    borderWidth: 1,
-    borderColor: '#F39C12',
+    borderLeftWidth: 4,
+    borderLeftColor: "#F39C12"
   },
   header: {
     flexDirection: "row",
@@ -62,10 +62,10 @@ const styles = StyleSheet.create({
   dateText: {
     fontSize: width < 350 ? 14 : 18,
     fontWeight: "bold",
-    color: "#1a237e",
+    color: "#2c3e50",
   },
   goalSection: {
-    backgroundColor: "#ffffff",
+    backgroundColor: "#f8f9fa",
     padding: 12,
     borderRadius: 8,
     alignItems: "center",
@@ -73,23 +73,28 @@ const styles = StyleSheet.create({
   goalTitle: {
     fontSize: 16,
     fontWeight: "bold",
-    color: "#1e88e5",
+    color: "#2c3e50",
     marginBottom: 4,
   },
   goalText: {
     fontSize: 14,
-    color: "#424242",
+    color: "#7f8c8d",
   },
   actionButton: {
     marginTop: 12,
-    backgroundColor: "#1e88e5",
-    paddingVertical: 10,
+    backgroundColor: "#F39C12",
+    paddingVertical: 8,
+    paddingHorizontal: 16,
     borderRadius: 8,
-    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.2,
+    shadowRadius: 2,
+    elevation: 2,
   },
   actionButtonText: {
     color: "#ffffff",
     fontSize: 14,
-    fontWeight: "bold",
+    fontWeight: "600",
   },
 });

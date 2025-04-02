@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
   container: {
     width: "100%",
     padding: 16,
-    backgroundColor: "#e3f2fd",
+    backgroundColor: "#ffffff",
     borderRadius: 12,
     marginBottom: 15,
     shadowColor: "#000",
@@ -34,17 +34,18 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowRadius: 4,
     elevation: 3,
-    borderWidth: 1,
-    borderColor: '#F39C12',
+    borderLeftWidth: 4,
+    borderLeftColor: '#F39C12'
   },
   header: {
     fontWeight: "bold",
-    color: "#FFD700",
+    color: "#2c3e50",
     marginBottom: 5,
     textAlign: "center",
   },
   info: {
     marginBottom: 3,
+    color: "#7f8c8d",
   },
 });
 

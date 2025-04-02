@@ -1,6 +1,6 @@
 // src/components/AddMealItemModal.tsx
 import React, { useState, useContext } from 'react';
-import { Modal, View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
+import { Modal, View, Text, StyleSheet, TextInput, TouchableOpacity, Animated } from 'react-native';
 import { MealContext } from '../context/MealContext';
 import uuid from 'react-native-uuid';
 
@@ -14,6 +14,17 @@ export default function AddMealItemModal({ visible, mealId, onClose }: Props): J
   const { addMealItem } = useContext(MealContext);
   const [name, setName] = useState('');
   const [calories, setCalories] = useState('');
+  const [fadeAnim] = useState(new Animated.Value(0));
+
+  React.useEffect(() => {
+    if (visible) {
+      Animated.timing(fadeAnim, {
+        toValue: 1,
+        duration: 200,
+        useNativeDriver: true,
+      }).start();
+    }
+  }, [visible, fadeAnim]);
 
   const handleAdd = () => {
     if (!name || !calories) return;
@@ -25,35 +36,45 @@ export default function AddMealItemModal({ visible, mealId, onClose }: Props): J
   };
 
   return (
-    <Modal visible={visible} transparent animationType="slide">
-      <View style={styles.overlay}>
+    <Modal visible={visible} transparent animationType="fade">
+      <Animated.View style={[styles.overlay, { opacity: fadeAnim }]}>
         <View style={styles.modalContainer}>
           <Text style={styles.header}>Add Meal Item</Text>
-          <TextInput 
-            style={styles.input} 
-            placeholder="Item Name" 
-            placeholderTextColor="#aaa"
-            value={name}
-            onChangeText={setName}
-          />
-          <TextInput 
-            style={styles.input} 
-            placeholder="Calories" 
-            placeholderTextColor="#aaa"
-            keyboardType="numeric"
-            value={calories}
-            onChangeText={setCalories}
-          />
+          <View style={styles.inputGroup}>
+            <Text style={styles.label}>Item Name</Text>
+            <TextInput 
+              style={styles.input} 
+              placeholder="Enter item name" 
+              placeholderTextColor="#9CA3AF"
+              value={name}
+              onChangeText={setName}
+            />
+          </View>
+          <View style={styles.inputGroup}>
+            <Text style={styles.label}>Calories</Text>
+            <TextInput 
+              style={styles.input} 
+              placeholder="Enter calories" 
+              placeholderTextColor="#9CA3AF"
+              keyboardType="numeric"
+              value={calories}
+              onChangeText={setCalories}
+            />
+          </View>
           <View style={styles.buttonsContainer}>
-            <TouchableOpacity style={styles.button} onPress={handleAdd}>
-              <Text style={styles.buttonText}>Add</Text>
-            </TouchableOpacity>
             <TouchableOpacity style={[styles.button, styles.cancelButton]} onPress={onClose}>
-              <Text style={styles.buttonText}>Cancel</Text>
+              <Text style={styles.cancelButtonText}>Cancel</Text>
+            </TouchableOpacity>
+            <TouchableOpacity 
+              style={[styles.button, styles.addButton, (!name || !calories) && styles.buttonDisabled]} 
+              onPress={handleAdd}
+              disabled={!name || !calories}
+            >
+              <Text style={styles.addButtonText}>Add Item</Text>
             </TouchableOpacity>
           </View>
         </View>
-      </View>
+      </Animated.View>
     </Modal>
   );
 }
@@ -61,46 +82,88 @@ export default function AddMealItemModal({ visible, mealId, onClose }: Props): J
 const styles = StyleSheet.create({
   overlay: {
     flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.5)',
+    backgroundColor: 'rgba(17, 24, 39, 0.75)',
     justifyContent: 'center',
     alignItems: 'center',
+    // backdropFilter: 'blur(8px)',
   },
   modalContainer: {
-    width: '80%',
-backgroundColor: '#fffbeb',    borderRadius: 8,
-    padding: 20,
+    width: '85%',
+    backgroundColor: '#FFFFFF',
+    borderRadius: 16,
+    padding: 24,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.1,
+    shadowRadius: 12,
+    elevation: 5,
   },
   header: {
-    fontSize: 20,
-    color: '#fff',
-    marginBottom: 15,
+    fontSize: 24,
+    fontWeight: '600',
+    color: '#111827',
+    marginBottom: 24,
     textAlign: 'center',
+  },
+  inputGroup: {
+    marginBottom: 20,
+  },
+  label: {
+    fontSize: 14,
+    fontWeight: '500',
+    color: '#4B5563',
+    marginBottom: 8,
   },
   input: {
     borderWidth: 1,
-    borderColor: '#1f1f1f',
-    borderRadius: 5,
-    padding: 10,
-    marginBottom: 15,
-    color: '#fff',
+    borderColor: '#E5E7EB',
+    borderRadius: 8,
+    padding: 12,
+    fontSize: 16,
+    color: '#111827',
+    backgroundColor: '#F9FAFB',
   },
   buttonsContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
+    marginTop: 8,
+    gap: 12,
   },
   button: {
-    backgroundColor: '#b52f2f',
-    padding: 10,
-    borderRadius: 5,
     flex: 1,
-    marginHorizontal: 5,
+    padding: 14,
+    borderRadius: 8,
     alignItems: 'center',
+    justifyContent: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.15,
+    shadowRadius: 3,
+    elevation: 3,
+  },
+  addButton: {
+    backgroundColor: '#F39C12',
+    borderWidth: 1,
+    borderColor: '#E67E22',
   },
   cancelButton: {
-    backgroundColor: '#555',
+    backgroundColor: '#F3F4F6',
+    borderWidth: 1,
+    borderColor: '#E5E7EB',
   },
-  buttonText: {
-    color: '#fff',
-    fontSize: 16,
+  buttonDisabled: {
+    backgroundColor: '#E5E7EB',
+    opacity: 0.7,
+    borderColor: '#D1D5DB',
+  },
+  addButtonText: {
+    color: '#FFFFFF',
+    fontSize: 14,
+    fontWeight: '600',
+  },
+  cancelButtonText: {
+    color: '#4B5563',
+    fontSize: 14,
+    fontWeight: '600',
   },
 });
