@@ -38,7 +38,7 @@ export default function MealItem({ item, meal, meals, setMeals }: MealItemProps)
 
 const styles = StyleSheet.create({
   itemContainer: {
-    backgroundColor: '#1f1f1f',
+    backgroundColor: "#F39C12",
     padding: 8,
     borderRadius: 5,
     marginBottom: 6,
