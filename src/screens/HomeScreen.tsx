@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { MealContext } from "../context/MealContext";
-import { useTheme } from "../context/ThemeContext";
+
 import Colors from "../theme/Colors";
 import GoalSuggestions from "../components/GoalSuggestions";
 import MealBreakdown from "../components/MealBreakdown";
@@ -18,10 +18,11 @@ import Tips from "../components/Tips";
 export default function HomeScreen(): JSX.Element {
   const mealContext = useContext(MealContext);
   if (!mealContext) {
-    throw new Error("MealContext is not provided. Make sure to wrap your component tree with MealContext.Provider.");
+    throw new Error(
+      "MealContext is not provided. Make sure to wrap your component tree with MealContext.Provider."
+    );
   }
   const { meals, setMeals } = mealContext;
-  const { theme, toggleTheme } = useTheme();
 
   const dailyTarget = 2500; // Example daily target in calories
   const totalCalories = meals.reduce((acc, meal) => {
@@ -33,18 +34,11 @@ export default function HomeScreen(): JSX.Element {
   }, 0);
 
   return (
-    <View style={[styles.container, { backgroundColor: theme.background }]}>
+    <View style={[styles.container]}>
       <ScrollView style={styles.scrollView}>
         {/* Header with Theme Toggle */}
         <View style={styles.header}>
-          <Text style={[styles.title, { color: theme.text }]}>
-            Veggie Gain-o-Meter
-          </Text>
-          <TouchableOpacity onPress={toggleTheme} style={styles.themeToggle}>
-            <Text style={[styles.themeToggleText, { color: theme.text }]}>
-              {theme.background === Colors.primary ? '☀️' : '🌙'}
-            </Text>
-          </TouchableOpacity>
+          <Text style={[styles.title]}>Veggie Gain-o-Meter</Text>
         </View>
 
         {/* Goal Suggestions */}
@@ -64,7 +58,7 @@ export default function HomeScreen(): JSX.Element {
             setMeals={setMeals}
           />
         ))}
-        <Tips/>
+        <Tips />
       </ScrollView>
     </View>
   );
@@ -91,6 +85,18 @@ const styles = StyleSheet.create({
     flex: 1,
     textAlign: "center",
     marginTop: 20,
+    width: "100%",
+    padding: 16,
+    backgroundColor: "#e3f2fd",
+    borderRadius: 12,
+    marginBottom: 15,
+    shadowColor: "#000",
+    shadowOpacity: 0.1,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 4,
+    elevation: 3,
+    borderWidth: 1,
+    borderColor: '#F39C12',
   },
   themeToggle: {
     padding: 8,

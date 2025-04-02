@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
-import { View, Text, StyleSheet, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, Animated } from 'react-native';
 import { MealContext } from '../context/MealContext';
+import { Easing } from 'react-native-reanimated';
 
 interface MealBreakdownProps {
   dailyTarget: number;
@@ -16,12 +17,20 @@ export default function MealBreakdown({ dailyTarget }: MealBreakdownProps): JSX.
   );
   const progressPercentage = Math.min((totalCalories / dailyTarget) * 100, 100);
 
+  const animatedWidth = new Animated.Value(0);
+  Animated.timing(animatedWidth, {
+    toValue: progressPercentage,
+    duration: 800,
+    easing: Easing.ease,
+    useNativeDriver: false,
+  }).start();
+
   return (
     <View style={styles.card}>
       <Text style={styles.header}>📊 Meal Breakdown</Text>
       <Text style={styles.info}>Total Calories: {totalCalories} / {dailyTarget}</Text>
       <View style={styles.progressBarContainer}>
-        <View style={[styles.progressBar, { width: `${progressPercentage}%` }]} />
+        <Animated.View style={[styles.progressBar, { width: animatedWidth.interpolate({ inputRange: [0, 100], outputRange: ['0%', '100%'] }) }]} />
       </View>
       <Text style={styles.percentageText}>{Math.round(progressPercentage)}% of daily target</Text>
     </View>
@@ -30,43 +39,45 @@ export default function MealBreakdown({ dailyTarget }: MealBreakdownProps): JSX.
 
 const styles = StyleSheet.create({
   card: {
-    padding: 12,
-    borderRadius: 10,
-    marginVertical: 8,
-    backgroundColor: 'transparent',
+    padding: 16,
+    borderRadius: 12,
+    marginVertical: 10,
+    backgroundColor: "#e3f2fd",
     borderWidth: 1,
-    borderColor: '#F1C40F',
+    borderColor: '#F39C12',
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 6,
+    shadowOffset: { width: 0, height: 5 },
+    shadowOpacity: 0.4,
+    shadowRadius: 8,
+    elevation: 5,
   },
   header: {
     fontWeight: 'bold',
     textAlign: 'center',
-    fontSize: 15,
-    color: '#F1C40F',
-    marginBottom: 12,
+    fontSize: 18,
+    marginBottom: 14,
   },
   info: {
-    fontSize: 14,
+    fontSize: 16,
     textAlign: 'center',
-    marginBottom: 8,
+    marginBottom: 10,
   },
   progressBarContainer: {
-    height: 6,
-    backgroundColor: 'rgba(255, 255, 255, 0.1)',
-    borderRadius: 4,
-    marginVertical: 6,
+    height: 8,
+    backgroundColor: 'rgba(0, 106, 255, 0.2)',
+    borderRadius: 6,
+    marginVertical: 8,
+    overflow: 'hidden',
   },
   progressBar: {
     height: '100%',
-    backgroundColor: '#F1C40F',
-    borderRadius: 4,
+    backgroundColor: '#F39C12',
+    borderRadius: 6,
   },
   percentageText: {
-    fontSize: 12,
+    fontSize: 14,
     textAlign: 'center',
-    opacity: 0.8,
+    opacity: 0.9,
+    marginTop: 4,
   },
 });

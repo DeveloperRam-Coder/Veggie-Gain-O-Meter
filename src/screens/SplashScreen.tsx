@@ -1,13 +1,11 @@
 import React, { useEffect } from 'react';
 import { View, Image, StyleSheet, Animated } from 'react-native';
-import { useTheme } from '../context/ThemeContext';
 
 interface SplashScreenProps {
   onFinish: () => void;
 }
 
 const SplashScreen: React.FC<SplashScreenProps> = ({ onFinish }) => {
-  const { theme } = useTheme();
   const fadeAnim = new Animated.Value(0);
 
   useEffect(() => {
@@ -24,7 +22,7 @@ const SplashScreen: React.FC<SplashScreenProps> = ({ onFinish }) => {
   }, []);
 
   return (
-    <View style={[styles.container, { backgroundColor: theme.background }]}>
+    <View style={[styles.container, ]}>
       <Animated.View style={[styles.logoContainer, { opacity: fadeAnim }]}>
         <Image
           source={require('../../assets/favicon.png')}

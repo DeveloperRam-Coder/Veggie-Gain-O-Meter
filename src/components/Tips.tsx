@@ -24,10 +24,18 @@ const colors = ["#FF5733", "#33FF57", "#337BFF", "#FF33A8", "#FFC300"];
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#252728",
-    padding: 10,
-    borderRadius: 8,
-    marginVertical: 15,
+    width: "100%",
+    padding: 16,
+    backgroundColor: "#e3f2fd",
+    borderRadius: 12,
+    marginBottom: 15,
+    shadowColor: "#000",
+    shadowOpacity: 0.1,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 4,
+    elevation: 3,
+    borderWidth: 1,
+    borderColor: '#F39C12',
   },
   header: {
     fontWeight: "bold",

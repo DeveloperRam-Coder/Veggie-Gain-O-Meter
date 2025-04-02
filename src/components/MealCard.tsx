@@ -1,15 +1,8 @@
 import React, { useState } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  Dimensions,
-} from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import MealItem from "./MealItem";
 import AddMealItemModal from "./AddMealItemModal";
 import { Meal } from "../data/mealsData";
-import Colors from "../theme/Colors";
 
 interface MealCardProps {
   meal: Meal;
@@ -17,20 +10,16 @@ interface MealCardProps {
   setMeals: React.Dispatch<React.SetStateAction<Meal[]>>;
 }
 
-export default function MealCard({
-  meal,
-  meals,
-  setMeals,
-}: MealCardProps): JSX.Element {
+export default function MealCard({ meal, meals, setMeals }: MealCardProps) {
   const [modalVisible, setModalVisible] = useState(false);
-  const totalCalories = meal.items.reduce(
-    (sum, item) => sum + item.calories,
-    0
-  );
+
 
   return (
     <View style={[styles.card, { borderLeftColor: meal.color }]}>
-      <Text style={styles.header}>{meal.title}</Text>
+      <View style={styles.headerContainer}>
+        <Text style={styles.header}>{meal.title}</Text>
+        {/* <Text style={styles.caloriesText}>{totalCalories} cal</Text> */}
+      </View>
       {meal.items.map((item) => (
         <MealItem
           key={item.id}
@@ -40,12 +29,11 @@ export default function MealCard({
           setMeals={setMeals}
         />
       ))}
-      {/* <Text style={styles.caloriesText}>Total: {totalCalories} cal</Text> */}
       <TouchableOpacity
         style={styles.addButton}
         onPress={() => setModalVisible(true)}
       >
-        <Text style={styles.addButtonText}>+ Item</Text>
+        <Text style={styles.addButtonText}>+ Add</Text>
       </TouchableOpacity>
       <AddMealItemModal
         visible={modalVisible}
@@ -56,42 +44,38 @@ export default function MealCard({
   );
 }
 
-const { width } = Dimensions.get("window");
-
 const styles = StyleSheet.create({
   card: {
-    padding: 10,
+    padding: 12,
     borderRadius: 8,
-    marginVertical: 5,
-    borderWidth: 2,
-    borderColor: "#F1C40F",
-    position: "relative", // Ensure the button can be placed relative to the card
+    marginVertical: 6,
+    backgroundColor: "#e3f2fd",
+    borderWidth: 1,
+    borderColor: '#F39C12',
+  },
+  headerContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 8,
   },
   header: {
     fontWeight: "bold",
     fontSize: 16,
-    color: "#F1C40F",
-    marginBottom: 8,
   },
   caloriesText: {
-    fontSize: 12,
-    color: "#ECF0F1",
-    textAlign: "right",
-    marginBottom: 8,
+    fontSize: 14,
   },
   addButton: {
-    backgroundColor: Colors.accent,
-    paddingVertical: 4,
-    paddingHorizontal: 8,
-    borderRadius: 5,
-    alignItems: "center",
-    position: "absolute", // Position the button absolutely inside the card
-    top: 8, // Adjust to move it to the top
-    right: 8, // Move it to the right side
+    backgroundColor: "#1e88e5",
+    paddingVertical: 5,
+    paddingHorizontal: 12,
+    borderRadius: 4,
+    alignSelf: "flex-end",
+    marginTop: 6,
   },
   addButtonText: {
-    color: Colors.white,
     fontSize: 14,
-    fontWeight: "500",
+    fontWeight: "600",
   },
 });

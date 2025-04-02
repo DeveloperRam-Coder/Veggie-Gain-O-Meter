@@ -6,12 +6,10 @@ import {
   Dimensions,
   TouchableOpacity,
 } from "react-native";
-import { useTheme } from "../context/ThemeContext";
 
 export default function GoalSuggestions(): JSX.Element {
   const [currentDate, setCurrentDate] = useState("");
 
-  // Update the current date when the component mounts
   useEffect(() => {
     const today = new Date();
     const formattedDate = today.toLocaleDateString("en-US", {
@@ -25,10 +23,16 @@ export default function GoalSuggestions(): JSX.Element {
 
   return (
     <View style={styles.container}>
-      {/* Date and Nutrition Info */}
-      <View style={styles.topSection}>
+      <View style={styles.header}>
         <Text style={styles.dateText}>{currentDate}</Text>
       </View>
+      <View style={styles.goalSection}>
+        <Text style={styles.goalTitle}>Today's Goal 🎯</Text>
+        <Text style={styles.goalText}>Stay hydrated and eat balanced meals!</Text>
+      </View>
+      <TouchableOpacity style={styles.actionButton}>
+        <Text style={styles.actionButtonText}>Set New Goal</Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -38,48 +42,54 @@ const { width } = Dimensions.get("window");
 const styles = StyleSheet.create({
   container: {
     width: "100%",
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    backgroundColor: "#f2f9f2",
-    borderRadius: 10,
+    padding: 16,
+    backgroundColor: "#e3f2fd",
+    borderRadius: 12,
     marginBottom: 15,
+    shadowColor: "#000",
+    shadowOpacity: 0.1,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 4,
+    elevation: 3,
+    borderWidth: 1,
+    borderColor: '#F39C12',
   },
-  topSection: {
+  header: {
     flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 10,
   },
   dateText: {
-    fontSize: width < 350 ? 14 : 16,
+    fontSize: width < 350 ? 14 : 18,
     fontWeight: "bold",
-    color: "#1a1a1a",
-    flexShrink: 1,
+    color: "#1a237e",
   },
-  badgeContainer: {
-    flexDirection: "row",
+  goalSection: {
+    backgroundColor: "#ffffff",
+    padding: 12,
+    borderRadius: 8,
+    alignItems: "center",
   },
-  badge: {
-    paddingVertical: 6,
-    paddingHorizontal: 12,
-    borderRadius: 12,
-    marginLeft: 8,
-  },
-  caloriesBadge: {
-    backgroundColor: "#f8a100",
-  },
-  proteinBadge: {
-    backgroundColor: "#9b4de0",
-  },
-  badgeText: {
-    color: "white",
+  goalTitle: {
+    fontSize: 16,
     fontWeight: "bold",
-    fontSize: width < 350 ? 12 : 14,
+    color: "#1e88e5",
+    marginBottom: 4,
   },
-  themeToggleText: {
-    fontSize: 20,
+  goalText: {
+    fontSize: 14,
+    color: "#424242",
   },
-  themeToggle: {
-    padding: 8,
-    borderRadius: 20,
+  actionButton: {
+    marginTop: 12,
+    backgroundColor: "#1e88e5",
+    paddingVertical: 10,
+    borderRadius: 8,
+    alignItems: "center",
+  },
+  actionButtonText: {
+    color: "#ffffff",
+    fontSize: 14,
+    fontWeight: "bold",
   },
 });
