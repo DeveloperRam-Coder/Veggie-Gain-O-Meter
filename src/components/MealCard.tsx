@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import React, { useState, useEffect } from "react";
+import { View, Text, StyleSheet, TouchableOpacity, Animated } from "react-native";
 import MealItem from "./MealItem";
 import AddMealItemModal from "./AddMealItemModal";
 import { Meal } from "../data/mealsData";
@@ -8,19 +8,40 @@ interface MealCardProps {
   meal: Meal;
   meals: Meal[];
   setMeals: React.Dispatch<React.SetStateAction<Meal[]>>;
+  isExpanded: boolean;
+  onToggle: () => void;
 }
 
-export default function MealCard({ meal, meals, setMeals }: MealCardProps) {
+export default function MealCard({ meal, meals, setMeals, isExpanded, onToggle }: MealCardProps) {
   const [modalVisible, setModalVisible] = useState(false);
+  const [animation] = useState(new Animated.Value(0));
+
+  useEffect(() => {
+    Animated.timing(animation, {
+      toValue: isExpanded ? 1 : 0,
+      duration: 300,
+      useNativeDriver: false,
+    }).start();
+  }, [isExpanded]);
   
   const totalCalories = meal.items.reduce((sum, item) => sum + item.calories, 0);
 
+  const maxHeight = animation.interpolate({
+    inputRange: [0, 1],
+    outputRange: [0, 500], // Adjust this value based on your content
+  });
+
   return (
-    <View style={[styles.card, { borderLeftColor: meal.color }]}>
+    <TouchableOpacity
+      activeOpacity={0.9}
+      onPress={onToggle}
+      style={[styles.card, { borderLeftColor: meal.color }]}>
       <View style={styles.headerContainer}>
         <View style={styles.titleContainer}>
-          <Text style={styles.header}>{meal.title}</Text>
-          <Text style={styles.caloriesText}>{totalCalories} cal</Text>
+        <Text style={styles.header}>
+  {meal.title} → {totalCalories} cal
+</Text>
+
         </View>
         <TouchableOpacity
           style={styles.addButton}
@@ -29,7 +50,7 @@ export default function MealCard({ meal, meals, setMeals }: MealCardProps) {
           <Text style={styles.addButtonText}>+ Add</Text>
         </TouchableOpacity>
       </View>
-      <View style={styles.itemsContainer}>
+      <Animated.View style={[styles.itemsContainer, { maxHeight, overflow: 'hidden' }]}>
         {meal.items.map((item) => (
           <MealItem
             key={item.id}
@@ -39,13 +60,13 @@ export default function MealCard({ meal, meals, setMeals }: MealCardProps) {
             setMeals={setMeals}
           />
         ))}
-      </View>
+      </Animated.View>
       <AddMealItemModal
         visible={modalVisible}
         mealId={meal.id}
         onClose={() => setModalVisible(false)}
       />
-    </View>
+    </TouchableOpacity>
   );
 }
 
@@ -55,7 +76,12 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     marginVertical: 8,
     backgroundColor: "#ffffff",
-    borderLeftWidth: 4,
+    borderLeftWidth: 10,
+    borderRightWidth: 10,
+    borderTopWidth: 10,
+    borderBottomWidth: 10,
+    borderColor: "#ffffff",
+
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
@@ -66,7 +92,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: 12,
+    marginBottom: 10,
   },
   titleContainer: {
     flex: 1,
