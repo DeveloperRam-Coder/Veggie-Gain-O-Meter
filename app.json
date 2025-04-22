@@ -4,25 +4,34 @@
     "slug": "VeggieGainOMeter",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/icon.png",  // Ensure your icon is 1024x1024 px
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {
-      "image": "./assets/splash-icon.png",
+      "image": "./assets/icon.png",  // Splash image should ideally be a different one
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.ramsapp.VeggieGainOMeter",  // This is optional but recommended for iOS
+      "icon": "./assets/icon.png"  // Explicitly define the iOS icon here as well
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      }
+        "foregroundImage": "./assets/icon.png",  // Should be the app icon, 1024x1024 px
+        "backgroundColor": "#ffffff"  // Adaptive icon background color
+      },
+      "package": "com.ramsapp.VeggieGainOMeter",  // Your Android package name
+      "icon": "./assets/icon.png"  // Explicitly define the Android icon here
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/favicon.png"  // Ensure favicon is also correctly linked
+    },
+    "extra": {
+      "eas": {
+        "projectId": "51d2b9da-fe05-4a73-8451-7ddc2ea005aa"
+      }
     }
   }
 }
