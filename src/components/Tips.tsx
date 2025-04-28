@@ -9,6 +9,8 @@ const { width } = Dimensions.get("window");
 const fontSize = width < 360 ? 12 : 14;
 const headerFontSize = width < 360 ? 16 : 18;
 
+const colors = ["#FF5733", "#33FF57", "#337BFF", "#FF33A8", "#FFC300"];
+
 const Tips: React.FC<TipsProps> = ({ tips }) => {
   return (
     <View style={styles.container}>
@@ -19,8 +21,6 @@ const Tips: React.FC<TipsProps> = ({ tips }) => {
     </View>
   );
 };
-
-const colors = ["#FF5733", "#33FF57", "#337BFF", "#FF33A8", "#FFC300"];
 
 const styles = StyleSheet.create({
   container: {
